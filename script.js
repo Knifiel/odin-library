@@ -8,10 +8,10 @@ function Book(title, author, pagenum, isRead){
 Book.prototype.info = function(){
     return `${this.title} by ${this.author}, ${this.pagenum} pages, ${this.isRead ? 'already read' : 'not read yet'}.`
 }
+
 Book.prototype.changeRead = function(button){
     this.isRead = (this.isRead ? false : true);
     this.isRead ? button.innerText = 'Read' : button.innerText = 'Not read';
-    
 }
 
 const form = document.querySelector('#addbook');
@@ -19,8 +19,11 @@ const form = document.querySelector('#addbook');
 const arrLibrary = [];
 const library = document.querySelector("#library");
 
-arrLibrary.push(new Book('Hobbit', "J. R. R. Tolkien", 320, false), new Book("Moby Dick", 'Herman Melville', 378, false), new Book('The Extraordinary Journeys: Twenty Thousand Leagues Under the Sea', 'Jules Verne', 496, true));
-``
+//add some books to library fo it doesn't look too empty
+arrLibrary.push(new Book('The Hobbit', "J. R. R. Tolkien", 320, false), 
+new Book("Moby Dick", 'Herman Melville', 378, false), 
+new Book('The Extraordinary Journeys: Twenty Thousand Leagues Under the Sea', 'Jules Verne', 496, true));
+
 const addBookButton = document.querySelectorAll('.addbookbtn');
 const addBookForm = document.querySelector('.wrapper.addbook');
 
@@ -71,7 +74,7 @@ function addBook(bookObj){
     library.appendChild(div);
 }
 
-//adds even listener to "Create Book button"
+//add even listener to "Create Book button" and use it to validate form
 const submitbtn = document.querySelector('#createbook');
 submitbtn.addEventListener('click', ()=>{
     document.querySelector('#title').setCustomValidity('');
