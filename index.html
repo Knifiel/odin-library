@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Library</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <h1>Library</h1>
+  <div class="wrapper addbook" hidden>
+    <iframe name="nothing" style="display:none;"></iframe>
+    <form id="addbook" method="get" target="nothing">
+      <label for="title">Title</label><input type="text" name="title" id="title" required>
+      <label for="author">Author</label><input type="text" name="author" id="author" required>
+      <label for="pagenum">Number of pages</label><input type="number" name="pagenum" id="pagenum" min="1" required>
+      <label for="isread">Have you read it?</label><input type="checkbox" name="isread" id="isread">
+      <button id="createbook" type="button">Create Book</button><button class="addbookbtn" type="reset">Cancel</button>
+    </form>
+  </div>
+  <button class="addbookbtn">Add Book</button>
+  <div id="library"></div>
+</body>
+</html>
