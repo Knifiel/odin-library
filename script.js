@@ -16,33 +16,29 @@ Book.prototype.changeRead = function(button){
 
 const form = document.querySelector('#addbook');
 
-const Library = [];
+const arrLibrary = [];
 const library = document.querySelector("#library");
 
-const testBook = new Book("testBook", 'testAuthor', 200, false);
-const testBook2 = new Book("testBook2", 'testAuthor2', 100, true);
-
-
-Library.push(testBook, testBook2);
-
+arrLibrary.push(new Book('Hobbit', "J. R. R. Tolkien", 320, false), new Book("Moby Dick", 'Herman Melville', 378, false), new Book('The Extraordinary Journeys: Twenty Thousand Leagues Under the Sea', 'Jules Verne', 496, true));
+``
 const addBookButton = document.querySelectorAll('.addbookbtn');
 const addBookForm = document.querySelector('.wrapper.addbook');
 
 addBookButton.forEach(element => {element.addEventListener("click", function(){addBookForm.toggleAttribute("hidden")})})
 
 
-//takes array of Book objects and creates cards for library HTML element
-function populateLibrary(arr){
-    library.innerHTML = "";
-    arr.forEach(element => {
-        addBook(element, arr);
+//takes array of Book objects and calls for addBook method.
+function populateLibrary(){
+    arrLibrary.forEach(element => {
+        addBook(element);
     });
 }
 
-function addBook(bookObj, arr){
+//takes book object method from an array, 
+function addBook(bookObj){
     const div = document.createElement('div');
     div.classList.add('card');
-    div.dataset.id = arr.indexOf(bookObj);
+    div.dataset.id = bookObj.title + bookObj.author;
     for (const key in bookObj) {
         if (Object.hasOwnProperty.call(bookObj, key)) {
             const element = bookObj[key];
@@ -70,32 +66,52 @@ function addBook(bookObj, arr){
     const buttondelete = document.createElement('button');
     buttondelete.classList = 'delete';
     buttondelete.innerText = 'delete book';
-    buttondelete.addEventListener('click', () => {deleteBook(arr, div.dataset.id)})
+    buttondelete.addEventListener('click', () => {deleteBook(bookObj, div.dataset.id)})
     div.appendChild(buttondelete);
     library.appendChild(div);
 }
 
-
+//adds even listener to "Create Book button"
 const submitbtn = document.querySelector('#createbook');
 submitbtn.addEventListener('click', ()=>{
-    //submitbtn.preventDefault();
+    document.querySelector('#title').setCustomValidity('');
     if(form.checkValidity()){
     const title = document.querySelector('#title').value;
     const author = document.querySelector('#author').value;
     const pagenum = Number(document.querySelector('#pagenum').value);
     const isRead = document.querySelector('#isread').checked;
     const book = new Book(title, author, pagenum, isRead);
-    Library.push(book);
-    form.reset();
-    populateLibrary(Library);
+        if (checkDuplicates(book)){
+            document.querySelector('#title').setCustomValidity("Same book by this author is already in the library");
+            document.querySelector('#title').reportValidity();
+        } else {
+            arrLibrary.push(book);
+            form.reset();
+            addBook(book);
+            addBookForm.toggleAttribute("hidden");
+        }
 } else {
     form.reportValidity();
 }
 });
 
-function deleteBook(arr, book){
-    arr.splice(book, 1);
-    populateLibrary(arr);
+
+function checkDuplicates(book){
+    let status = false;
+    arrLibrary.forEach((element) => {
+        if((book.title.toString() === element.title.toString())&&(book.author.toString() === element.author.toString())){
+            status = true;
+        }
+    })
+    return status;
+ }
+
+
+//deletes book from Dom and arrLibrary using ID made of book author and title
+function deleteBook(book, id){
+    const element = document.querySelector(`#library > div[data-id='${id}']`);
+    element.remove();
+    arrLibrary.splice(arrLibrary.indexOf(book), 1);
 }
 
-populateLibrary(Library);
+populateLibrary();
