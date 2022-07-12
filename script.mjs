@@ -1,25 +1,11 @@
-function Book(title, author, pagenum, isRead){
-    this.title = title
-    this.author = author
-    this.pagenum = pagenum
-    this.isRead = isRead
-}
-
-Book.prototype.info = function(){
-    return `${this.title} by ${this.author}, ${this.pagenum} pages, ${this.isRead ? 'already read' : 'not read yet'}.`
-}
-
-Book.prototype.changeRead = function(button){
-    this.isRead = (this.isRead ? false : true);
-    this.isRead ? button.innerText = 'Read' : button.innerText = 'Not read';
-}
+import Book from "./book.mjs";
 
 const form = document.querySelector('#addbook');
 
 const arrLibrary = [];
 const library = document.querySelector("#library");
 
-//add some books to library fo it doesn't look too empty
+//add some books to library so it doesn't look too empty
 arrLibrary.push(new Book('The Hobbit', "J. R. R. Tolkien", 320, false), 
 new Book("Moby Dick", 'Herman Melville', 378, false), 
 new Book('The Extraordinary Journeys: Twenty Thousand Leagues Under the Sea', 'Jules Verne', 496, true));
@@ -51,7 +37,7 @@ function addBook(bookObj){
                     field = document.createElement('button');
                     element ? field.innerText = 'Read' : field.innerText = 'Not read';
                     field.addEventListener('click', () => {
-                        bookObj.changeRead(field);
+                        bookObj.setRead(field);
                     });
                     break;
                 case 'number':
