@@ -6,11 +6,11 @@ export default class Book{
     this.isRead = isRead
 }
 
-info(){
+info = () => {
     return `${this.title} by ${this.author}, ${this.pagenum} pages, ${this.isRead ? 'already read' : 'not read yet'}.`;
 }
 
-setRead(button){
+setRead = (button) => {
     this.isRead = (this.isRead ? false : true);
     this.isRead ? button.innerText = 'Read' : button.innerText = 'Not read';
 
